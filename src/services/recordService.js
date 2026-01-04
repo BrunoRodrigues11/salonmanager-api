@@ -2,7 +2,17 @@ const pool = require("../config/db");
 
 async function getAllRecords() {
     const result = await pool.query(`
-        SELECT * FROM service_records
+        SELECT
+        id,
+        date::text AS date,
+        collaborator_id,
+        procedure_id,
+        status,
+        notes,
+        extras,
+        calculated_value,
+        created_at
+        FROM service_records;
     `);
     return result.rows;
 }

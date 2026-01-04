@@ -1,3 +1,4 @@
+
 /* COLLABORATORS */
 INSERT INTO collaborators (name, role, active) 
 VALUES ('Nina','Manicure', True)
@@ -33,4 +34,6 @@ SELECT * FROM price_configs
 INSERT INTO service_records (date, collaborator_id, procedure_id, status, notes, extras, calculated_value)
 VALUES ('04-01-2025','165e35e5-94de-46ca-b655-b68070f3d81a','0374ff7f-1ef8-495b-bf13-69a0af6faf91','Fez','','',20)
 SELECT * FROM service_records
+
+
 
