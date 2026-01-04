@@ -2,9 +2,9 @@ const pool = require("../config/db");
 
 async function getAllPrices() {
   const result = await pool.query(`
-    SELECT pr.*
-    FROM price_configs pr
-    ORDER BY pr.id
+    SELECT *
+    FROM price_configs
+    ORDER BY id
   `);
   return result.rows;
 }

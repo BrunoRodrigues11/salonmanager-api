@@ -15,6 +15,9 @@ app.use("/api/procedures", procedureRoutes);
 const priceRoutes = require("./src/routes/priceRoutes");
 app.use("/api/prices", priceRoutes);
 
+const recordRoutes = require("./src/routes/recordRoutes");
+app.use("/api/records", recordRoutes);
+
 app.listen(3001, () => {
   console.log("Server running on port 3001");
 });
