@@ -60,14 +60,23 @@ async function updateProcedure(id, data) {
   try {
     await client.query("BEGIN");
     const { name, category, active } = data;
-    await client.query(
-      `UPDATE procedures
-       SET name = $1, category = $2, active = $3
-       WHERE id = $4`,
+
+    const result = await client.query(
+      `
+      UPDATE procedures
+      SET name = $1, category = $2, active = $3
+      WHERE id = $4
+      RETURNING *
+      `,
       [name, category, active, id]
     );
 
+    if (!result.rows.length) {
+      throw new Error("Procedimento não encontrado");
+    }
+
     await client.query("COMMIT");
+    return result.rows[0]; 
   } catch (err) {
     await client.query("ROLLBACK");
     throw err;
@@ -75,6 +84,7 @@ async function updateProcedure(id, data) {
     client.release();
   }
 }
+
 
 module.exports = {
   getAllProcedures,
