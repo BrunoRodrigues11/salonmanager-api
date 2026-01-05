@@ -28,8 +28,18 @@ async function destroy(req, res) {
   }
 }
 
+async function update(req, res) {
+  try {
+    const procedure = await procedureService.updateProcedure(req.params.id, req.body);
+    res.json(toCamel(procedure));
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+}
+
 module.exports = {
   index,
   store,
   destroy,
+  update,
 };

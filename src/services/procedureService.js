@@ -54,8 +54,31 @@ async function deleteProcedure(id) {
   }
 }
 
+async function updateProcedure(id, data) {
+  const client = await pool.connect();
+
+  try {
+    await client.query("BEGIN");
+    const { name, category, active } = data;
+    await client.query(
+      `UPDATE procedures
+       SET name = $1, category = $2, active = $3
+       WHERE id = $4`,
+      [name, category, active, id]
+    );
+
+    await client.query("COMMIT");
+  } catch (err) {
+    await client.query("ROLLBACK");
+    throw err;
+  } finally {
+    client.release();
+  }
+}
+
 module.exports = {
   getAllProcedures,
   createProcedure,
   deleteProcedure,
+  updateProcedure,
 };
