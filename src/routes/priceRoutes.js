@@ -5,5 +5,6 @@ const controller = require("../controllers/priceController");
 router.get("/", controller.index);
 router.post("/", controller.store);
 router.delete("/:id", controller.destroy);
+router.put("/:id", controller.update);
 
 module.exports = router;

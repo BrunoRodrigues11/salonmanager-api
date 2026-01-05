@@ -11,6 +11,7 @@ async function getAllPrices() {
 
 async function createPrice(data) {
     const client = await pool.connect();
+
     try {
         await client.query("BEGIN");
         const { procedureId, valueDone, valueNotDone, valueAdditional } = data;
@@ -35,6 +36,7 @@ async function createPrice(data) {
 
 async function deletePrice(id) {
     const client = await pool.connect();
+
     try {
         await client.query("BEGIN");
         await client.query(
@@ -51,8 +53,40 @@ async function deletePrice(id) {
     }
 }
 
+async function updatePrice(id, data) {
+    const client = await pool.connect();
+
+    try {
+        await client.query("BEGIN");
+        const { valueDone, valueNotDone, valueAdditional } = data;
+
+        const result = await client.query(
+            `
+            UPDATE price_configs
+             SET value_done = $1, value_not_done = $2, value_additional = $3
+             WHERE id = $4
+             RETURNING *
+             `,
+            [valueDone, valueNotDone, valueAdditional, id]
+        );
+
+        if (result.rows.length === 0) {
+            throw new Error("Valor não encontrado");
+        }
+
+        await client.query("COMMIT");
+        return result.rows[0];
+    } catch (err) {
+        await client.query("ROLLBACK");
+        throw err;
+    } finally {
+        client.release();
+    }
+}
+
 module.exports = {
   getAllPrices,
   createPrice,
   deletePrice,
+  updatePrice,
 };

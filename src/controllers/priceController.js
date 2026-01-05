@@ -37,8 +37,18 @@ async function destroy(req, res) {
     }
 }
 
+async function update(req, res) {
+    try {
+        const price = await priceService.updatePrice(req.params.id, req.body);
+        res.json(normalizePrice(toCamel(price)));
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+}
+
 module.exports = {
     index,
     store,
     destroy,
+    update,
 };
