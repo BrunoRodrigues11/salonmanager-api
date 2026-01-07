@@ -73,8 +73,51 @@ async function deleteCollaborator(id) {
   }
 }
 
+async function updateCollaborator(id, data) {
+  const client = await pool.connect();
+
+  try {
+    await client.query("BEGIN");
+    const { name, role, active, allowedProcedureIds } = data;
+
+    const resCollab = await client.query(
+      `UPDATE collaborators
+       SET name = $1, role = $2, active = $3
+       WHERE id = $4
+       RETURNING *`,
+      [name, role, active, id]
+    );
+
+    await client.query(
+      "DELETE FROM collaborator_allowed_procedures WHERE collaborator_id = $1",
+      [id]
+    );
+
+    if (allowedProcedureIds?.length) {
+      for (const procId of allowedProcedureIds) {
+        await client.query(
+          `INSERT INTO collaborator_allowed_procedures
+           (collaborator_id, procedure_id)
+           VALUES ($1, $2)`,
+          [id, procId]
+        );
+      }
+    }
+
+    await client.query("COMMIT");
+    return { ...resCollab.rows[0], allowed_procedure_ids: allowedProcedureIds };
+
+  } catch (err) {
+    await client.query("ROLLBACK");
+    throw err;
+  } finally {
+    client.release();
+  }
+}
+
 module.exports = {
   getAllCollaborators,
   createCollaborator,
   deleteCollaborator,
+  updateCollaborator
 };

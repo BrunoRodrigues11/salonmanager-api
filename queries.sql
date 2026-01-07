@@ -21,6 +21,10 @@ INSERT INTO procedures (name, category, active)
 VALUES ('Sombrancelha', 'Cabeleireira – Feminino', true)
 SELECT * FROM procedures
 
+DELETE FROM procedures WHERE id='203bb917-e275-47ef-896f-6d732fa85c4c';
+DELETE FROM procedures WHERE id='6956dcf2-811b-42b0-a4c6-9789d53a01b8';
+DELETE FROM procedures WHERE id='f081a018-c6e7-416b-8b04-7c54c736d935';
+
 /* QUERY PROCEDURES SERVICE */
 SELECT *
 FROM procedures
