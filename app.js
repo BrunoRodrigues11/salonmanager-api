@@ -1,6 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
+const PORT = process.env.PORT || 3001;
 
 const app = express();
 app.use(cors());
@@ -18,6 +19,6 @@ app.use("/api/prices", priceRoutes);
 const recordRoutes = require("./src/routes/recordRoutes");
 app.use("/api/records", recordRoutes);
 
-app.listen(3001, () => {
-  console.log("Server running on port 3001");
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`🚀 Server running on port ${PORT}`);
 });
