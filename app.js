@@ -19,6 +19,9 @@ app.use("/api/prices", priceRoutes);
 const recordRoutes = require("./src/routes/recordRoutes");
 app.use("/api/records", recordRoutes);
 
+const authRoutes = require("./src/routes/authRoutes");
+app.use("/api/login", authRoutes);
+
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 Server running on port ${PORT}`);
 });
