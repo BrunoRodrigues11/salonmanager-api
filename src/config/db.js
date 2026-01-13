@@ -6,10 +6,7 @@ const isProduction = process.env.NODE_ENV === "production";
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  // Lógica inteligente de SSL:
-  ssl: isProduction 
-    ? { rejectUnauthorized: false } // Produção: Liga SSL e aceita certificados de nuvem
-    : false,                        // Localhost: Desliga SSL
+  ssl: false,                        
 });
 
 pool.query("SELECT 1")
