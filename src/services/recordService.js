@@ -5,8 +5,9 @@ const FREE_EXTRAS = ['São Miguel'];
 
 // Função auxiliar privada
 const calculatePrice = (priceConfig, status, extras) => {
+
   // 1. Valor Base
-  let total = status === 'DONE' 
+  let total = status === 'Fez' 
     ? Number(priceConfig.value_done) 
     : Number(priceConfig.value_not_done);
 
@@ -35,7 +36,7 @@ async function getAllRecords() {
         calculated_value,
         created_at
         FROM service_records
-        ORDER BY date DESC, created_at DESC; -- Adicionei ORDER BY para organização
+        ORDER BY date DESC, created_at DESC; 
     `);
     return result.rows;
 }
@@ -61,6 +62,7 @@ async function createRecord(data) {
 
         // 2. CALCULAR VALOR (Usando a função auxiliar)
         const finalValue = calculatePrice(priceConfig, status, extras);
+        console.log('Final calculated value:', finalValue);
 
         // 3. INSERIR O REGISTRO
         const resRecord = await client.query(
