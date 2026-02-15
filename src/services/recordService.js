@@ -62,7 +62,6 @@ async function createRecord(data) {
 
         // 2. CALCULAR VALOR (Usando a função auxiliar)
         const finalValue = calculatePrice(priceConfig, status, extras);
-        console.log('Final calculated value:', finalValue);
 
         // 3. INSERIR O REGISTRO
         const resRecord = await client.query(
